@@ -3,33 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>nu thoughts</title>
+  <title>oklama replica</title>
   <meta name="theme-color" content="#ffffff">
   <meta name="msapplication-TileColor" content="#da532c">
   <link rel="stylesheet" href="style.css">
-  <!-- originale: styled-jsx inline in <head> con esattamente questa regola -->
-  <style>body{background:black;color:white}</style>
 </head>
 <body>
 
-  <!-- header: p-6 pb-4 flex items-center -->
-  <div class="nt-header">
-    <a class="nt-back" href="home.html">&#8592;</a>
-    <span class="nt-date">august 20 2021</span>
-  </div>
+  <!-- layer folders: absolute inset-0 overflow-hidden select-none z-10 -->
+  <div class="folders-layer">
+    <!-- area di clamp: top-0 left-0 bottom-[90px] right-[90px] -->
+    <div class="folders-area" id="folders-area">
 
-  <!-- contenuto: prose mx-6 pb-6 max-w-[440px] -->
-  <div class="prose nt-content">
-    <p>“A volte una soluzione sembra plausibile solo in questo modo: sognando. Forse perché la ragione è pavida, non riesce a riempire i vuoti fra le cose, a stabilire la completezza, che è una forma di semplicità, preferisce una complicazione piena di buchi, e allora la volontà affida la soluzione al sogno. […]</p>
-    <p>La vita è un appuntamento, lo so di dire una banalità, solo che noi non sappiamo mai il quando, il chi, il come, il dove. E allora uno pensa: se avessi detto questo invece di quello, o quello invece di questo, se mi fossi alzato tardi invece che presto, o presto invece che tardi, oggi sarei impercettibilmente differente, e forse tutto il mondo sarebbe impercettibilmente differente. O sarebbe lo stesso, e io non potrei saperlo. Ma per esempio non starei qui a raccontare una storia, a proporre un rebus che non ha soluzione, o ha una soluzione che è inevitabilmente quella che ebbe e che io ignoro, e così la racconto a qualche amico, ogni tanto, raramente, bevendo un bicchiere, e dico: ti propongo un rebus, vediamo come lo risolvi. Ma poi perché a lei interessano i rebus, ha la passione dell'enigmistica o forse è solo la curiosità sterile di chi osserva la vita altrui?</p>
-    <p>Un appuntamento e un viaggio, anche questa è una banalità, mi riferisco alla vita, naturalmente, chissà quante volte è stato detto; e poi nel grande viaggio si fanno dei viaggi, sono i nostri piccoli percorsi insignificanti sulla crosta di questo pianeta che a sua volta viaggia, ma verso dove? È tutto un rebus, le sembrerò maniaco. Però a quel tempo io ero fermo, era un momento di stasi, il mio tempo ristagnava in una pozza di accidia, con quella tranquillità di quando non si è più troppo giovani ma non si è ancora troppo adulti, e si aspetta semplicemente la vita.”</p>
-    <p>- Antonio Tabucchi</p>
+      <!-- index 0 — x .65 y .75, icona grigia, label "nu thoughts" -->
+      <a draggable="false" data-drag="true" data-index="0" class="folder-item"
+         style="top:75%;left:65%;-webkit-touch-callout:none" href="nuthoughts.html">
+        <img draggable="false" src="assets/folder-gray.png" width="64" height="64" class="pixelated">
+        <span class="folder-label">nu thoughts</span>
+      </a>
 
-    <!-- immagine: flex justify-center my-5, resa intrinsic 210x140 (file 2400x1600) -->
-    <div class="nt-figure">
-      <img class="nt-photo" src="assets/photo-2400x1600.png" width="210" height="140" alt="">
+      <!-- index 1 — x .55 y .15, icona Black, label U+200B, link a master.html -->
+      <a draggable="false" data-drag="true" data-index="1" class="folder-item"
+         style="top:15%;left:55.00000000000001%;-webkit-touch-callout:none" href="master.html">
+        <img draggable="false" src="assets/folder-black.png" width="64" height="64" class="pixelated">
+        <span class="folder-label">&#8203;</span>
+      </a>
+
+      <!-- index 2 — x .18 y .48, icona gialla, label "alcune foto" -->
+      <a draggable="false" data-drag="true" data-index="2" class="folder-item"
+         style="top:48%;left:18%;-webkit-touch-callout:none" href="https://acci4i0.github.io/3Dgallery/">
+        <img draggable="false" src="assets/folder-default.png" width="64" height="64" class="pixelated">
+        <span class="folder-label">alcune foto</span>
+      </a>
+
+      <!-- index 3 — x .5 y .5, stile Image 84x84, click -> modal, nessun href -->
+      <div draggable="false" data-drag="true" data-index="3" class="folder-item folder-item--image"
+           style="top:50%;left:50%;-webkit-touch-callout:none" id="image-item">
+        <img draggable="false" src="assets/icon-168.png" width="84" height="84" class="pixelated">
+      </div>
+
+      <!-- index 4 — x .3 y .78, icona gialla, label "altre foto" (aggiunta, non presente nell'originale) -->
+      <a draggable="false" data-drag="true" data-index="4" class="folder-item"
+         style="top:78%;left:30%;-webkit-touch-callout:none" href="https://acci4i0.github.io/2Dgallery/">
+        <img draggable="false" src="assets/folder-default.png" width="64" height="64" class="pixelated">
+        <span class="folder-label">altre foto</span>
+      </a>
+
+      <!-- index 5 — x .8 y .32, icona gialla, label "basic info" (aggiunta, non presente nell'originale) -->
+      <a draggable="false" data-drag="true" data-index="5" class="folder-item"
+         style="top:32%;left:80%;-webkit-touch-callout:none" href="https://acci4i0.github.io/crossword/">
+        <img draggable="false" src="assets/folder-default.png" width="64" height="64" class="pixelated">
+        <span class="folder-label">basic info</span>
+      </a>
+
     </div>
   </div>
 
+  <!-- social bottom: fixed bottom-8, centrato -->
+  <div class="socialbar">
+    <div class="socialbar-inner">
+      <a class="social-link" href="mailto:placeholder@example.com">mail</a> / <a class="social-link" href="#" target="_blank" rel="noreferrer">instagram</a> / <a class="social-link" href="#" target="_blank" rel="noreferrer">github</a>
+    </div>
+  </div>
+
+  <!-- modal (Headless UI Dialog replica): nessuna animazione, block/hidden -->
+  <div class="hidden" id="modal-root">
+    <div class="modal-overlay" aria-hidden="true"></div>
+    <div class="modal-center">
+      <div class="modal-panel" id="modal-panel">
+        <img src="assets/modal-1500.png" alt="" class="modal-image">
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
 </body>
 </html>

@@ -94,9 +94,9 @@ Per sostituire: stessa risoluzione (o superiore, stesso ratio); i folder a 32×3
 sono voluti — vengono upscalati 2× con `image-rendering:pixelated` come
 sull'originale.
 
-*(Nota struttura file: la replica della homepage ora è `home.html`; `index.html`
-è la replica di `/nuthoughts`. Il folder "nu thoughts" naviga a `index.html`
-come nell'originale naviga a `/nuthoughts` — non è più inerte.)*
+*(Nota struttura file: `index.html` è il desktop (pagina d'atterraggio);
+`nuthoughts.html` è la replica di `/nuthoughts`. Il folder "nu thoughts"
+naviga a `nuthoughts.html` come nell'originale naviga a `/nuthoughts`.)*
 
 **Personalizzazioni richieste dall'utente (deviazioni volute dall'originale):**
 - folder 0 "nu thoughts": icona grigia (era gialla)
@@ -111,7 +111,7 @@ come nell'originale naviga a `/nuthoughts` — non è più inerte.)*
 
 ---
 
-# PAGINA /nuthoughts (`index.html`)
+# PAGINA /nuthoughts (`nuthoughts.html`)
 
 | Comportamento | Stato |
 |---|---|
