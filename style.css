@@ -1,0 +1,268 @@
+/* Valori estratti da /_next/static/css/d291c0c2a5f69739.css di oklama.com
+   (vedi EXTRACTED_PARAMS.md). Nessuna transition in tutto il foglio originale:
+   ogni cambio di stato è istantaneo. */
+
+@font-face {
+  font-family: JetBrains Mono;
+  src: url(assets/JetBrainsMono-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* preflight (estratto): box-border, margini a zero, a/button ereditano */
+*, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
+
+html {
+  height: 100%;                                /* h-full */
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: JetBrains Mono, monospace;      /* font-mono (custom) */
+}
+
+body {
+  margin: 0;
+  line-height: inherit;
+  min-height: 100%;                            /* min-h-full */
+  display: flex;                               /* flex flex-col */
+  flex-direction: column;
+  font-size: .8125rem;                         /* text-sm custom */
+  line-height: 1.1rem;
+}
+
+a { color: inherit; text-decoration: inherit; }
+button {
+  font-family: inherit; font-size: 100%; font-weight: inherit; line-height: inherit;
+  color: inherit; margin: 0; padding: 0;
+  -webkit-appearance: button; background-color: transparent; background-image: none;
+  cursor: pointer;
+}
+img { max-width: 100%; height: auto; display: block; vertical-align: middle; }
+
+/* ===== layer folders =====
+   originale: absolute inset-0 overflow-hidden select-none z-10 */
+.folders-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  z-index: 10;
+}
+
+/* originale: absolute top-0 left-0 bottom-[90px] right-[90px] */
+.folders-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 90px;
+  right: 90px;
+}
+
+/* originale: absolute text-sm flex flex-col items-center justify-center
+   pointer-events-none w-[90px] */
+.folder-item {
+  position: absolute;
+  font-size: .8125rem;
+  line-height: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  width: 90px;
+}
+
+/* item 3: + h-[90px] cursor-pointer */
+.folder-item--image {
+  height: 90px;
+  cursor: pointer;
+}
+
+/* originale: rendering-pixelated pointer-events-auto */
+.pixelated {
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  pointer-events: auto;
+}
+
+/* originale: pointer-events-auto text-center bg-white */
+.folder-label {
+  pointer-events: auto;
+  text-align: center;
+  background-color: #fff;
+}
+
+/* ===== nav top =====
+   originale: fixed top-7 left-7 right-7 z-30 text-black/50 font-mono
+   flex justify-between pointer-events-none [&>*]:pointer-events-auto */
+.topnav {
+  position: fixed;
+  top: 1.75rem;
+  left: 1.75rem;
+  right: 1.75rem;
+  z-index: 30;
+  color: rgba(0, 0, 0, .5);
+  font-family: JetBrains Mono, monospace;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.topnav > * { pointer-events: auto; }
+
+/* originale: hover:text-[#cd3f25] block p-1 — nessuna transition */
+.topnav-link {
+  display: block;
+  padding: .25rem;
+}
+.topnav-link:hover { color: rgb(205 63 37); }
+
+.store-wrapper { position: relative; }
+
+/* originale dropdown: absolute top-full border-2 -left-1 -mx-[2px] border-black
+   bg-white grid py-1 shadow-[4px_4px_0_rgba(0,0,0,0.25)] ; aperto vince .grid */
+.store-dropdown {
+  position: absolute;
+  top: 100%;
+  left: -.25rem;
+  margin-left: -2px;
+  margin-right: -2px;
+  border-width: 2px;
+  border-color: #000;
+  background-color: #fff;
+  display: grid;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .25);
+}
+
+/* originale: hover:text-[#cd3f25] whitespace-nowrap py-1 px-2 block */
+.store-dropdown-link {
+  white-space: nowrap;
+  padding: .25rem .5rem;
+  display: block;
+}
+.store-dropdown-link:hover { color: rgb(205 63 37); }
+
+.hidden { display: none; }
+
+/* ===== social bottom =====
+   originale: fixed bottom-8 left-0 right-0 h-0 flex justify-center items-center z-30 */
+.socialbar {
+  position: fixed;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 30;
+}
+
+/* originale: absolute bottom-0 text-black/50 font-mono */
+.socialbar-inner {
+  position: absolute;
+  bottom: 0;
+  color: rgba(0, 0, 0, .5);
+  font-family: JetBrains Mono, monospace;
+}
+.social-link:hover { color: rgb(205 63 37); }
+
+/* ===== modal =====
+   originale: fixed inset-0 bg-black/50 z-40 + panel centrato,
+   max = calc(min(100vh,100vw,800px) - 32px), nessuna animazione */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 40;
+}
+.modal-center {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+.modal-panel {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  max-height: calc(min(100vh, 100vw, 800px) - 32px);
+  max-width: calc(min(100vh, 100vw, 800px) - 32px);
+}
+.modal-image {
+  display: block;
+  width: calc(min(100vh, 100vw, 800px) - 32px);
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* ===== pagina /nuthoughts =====
+   valori estratti da d291c0c2a5f69739.css (build custom del sito):
+   - .prose: color:inherit; max-width:65ch; font-size:inherit; line-height:1.1rem
+     (NON i default del plugin typography)
+   - .prose p: margin 1.3em; primo figlio mt:0, ultimo figlio mb:0
+   - .text-xs custom: .625rem/1rem
+   Il body nero/bianco è inline nell'HTML come nell'originale (styled-jsx). */
+
+/* originale: p-6 pb-4 flex items-center */
+.nt-header {
+  padding: 1.5rem;
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* originale: pr-1.5 */
+.nt-back { padding-right: .375rem; }
+
+/* originale: ml-3 text-xs (custom) */
+.nt-date {
+  margin-left: .75rem;
+  font-size: .625rem;
+  line-height: 1rem;
+}
+
+/* originale: prose (custom) — max-width:65ch poi override utility 440px */
+.prose {
+  color: inherit;
+  max-width: 65ch;
+  font-size: inherit;
+  line-height: 1.1rem;
+}
+.prose p { margin-top: 1.3em; margin-bottom: 1.3em; }
+.prose > :first-child { margin-top: 0; }
+.prose > :last-child { margin-bottom: 0; }
+
+/* originale: mx-6 pb-6 max-w-[440px] */
+.nt-content {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  padding-bottom: 1.5rem;
+  max-width: 440px;
+}
+
+/* pagina master — originale: max-w-[900px] */
+.nt-content--master { max-width: 900px; }
+
+/* originale: flex justify-center my-5 (vince sul margin-bottom:0 di :last-child,
+   la utility viene dopo nel CSS originale) */
+.prose > .nt-figure {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* next/image layout=intrinsic 210x140: max 210px, si restringe col contenitore */
+.nt-photo {
+  display: block;
+  width: 210px;
+  max-width: 100%;
+  height: auto;
+}

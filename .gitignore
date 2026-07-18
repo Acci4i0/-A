@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# materiale sorgente non pubblicato (il nome con ":" romperebbe il checkout su Windows)
+content:nuthoughts.rtf
