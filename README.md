@@ -13,15 +13,15 @@ Il confronto comportamento per comportamento è in [CHECKLIST.md](CHECKLIST.md).
 
 | File | Contenuto |
 |---|---|
-| `index.html` | pagina-lettera (brano di Antonio Tabucchi) con foto in fondo |
-| `home.html` | desktop con le cartelle trascinabili, modal dell'immagine centrale, social |
+| `index.html` | desktop con le cartelle trascinabili, modal dell'immagine centrale, social |
+| `nuthoughts.html` | pagina-lettera (brano di Antonio Tabucchi) con foto in fondo |
 | `master.html` | pagina-immagine |
 
 ## Struttura
 
 ```
-index.html      pagina-lettera
-home.html       desktop
+index.html      desktop
+nuthoughts.html pagina-lettera
 master.html     pagina-immagine
 style.css       tutti gli stili (valori estratti dal CSS originale)
 main.js         drag, persistenza, modal (vanilla JS, nessuna dipendenza)
