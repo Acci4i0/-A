@@ -1,0 +1,353 @@
+[
+  {
+    "width": 390,
+    "fontSize": "15px",
+    "lineHeight": "15px",
+    "rowPadding": "4px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 4,
+        "w": 191
+      },
+      {
+        "text": "Neue web des",
+        "display": "none",
+        "x": 0,
+        "w": 0
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 340.14,
+        "w": 45.86
+      }
+    ]
+  },
+  {
+    "width": 500,
+    "fontSize": "15px",
+    "lineHeight": "15px",
+    "rowPadding": "4px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 4,
+        "w": 246
+      },
+      {
+        "text": "Neue web des",
+        "display": "none",
+        "x": 0,
+        "w": 0
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 450.14,
+        "w": 45.86
+      }
+    ]
+  },
+  {
+    "width": 666,
+    "fontSize": "15px",
+    "lineHeight": "15px",
+    "rowPadding": "4px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 4,
+        "w": 329
+      },
+      {
+        "text": "Neue web des",
+        "display": "none",
+        "x": 0,
+        "w": 0
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 616.14,
+        "w": 45.86
+      }
+    ]
+  },
+  {
+    "width": 667,
+    "fontSize": "8px",
+    "lineHeight": "8px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 220.33
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 223.33,
+        "w": 220.33
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 443.67,
+        "w": 220.33
+      }
+    ]
+  },
+  {
+    "width": 800,
+    "fontSize": "9.51876px",
+    "lineHeight": "9.51876px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 264.66
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 267.66,
+        "w": 264.67
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 532.33,
+        "w": 264.67
+      }
+    ]
+  },
+  {
+    "width": 1000,
+    "fontSize": "11.8026px",
+    "lineHeight": "11.8026px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 331.33
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 334.33,
+        "w": 331.33
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 665.67,
+        "w": 331.33
+      }
+    ]
+  },
+  {
+    "width": 1200,
+    "fontSize": "14.0865px",
+    "lineHeight": "14.0865px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 398
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 401,
+        "w": 398
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 799,
+        "w": 398
+      }
+    ]
+  },
+  {
+    "width": 1280,
+    "fontSize": "15px",
+    "lineHeight": "15px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 424.66
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 427.66,
+        "w": 424.67
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 852.33,
+        "w": 424.67
+      }
+    ]
+  },
+  {
+    "width": 1281,
+    "fontSize": "14px",
+    "lineHeight": "14px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 425
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 428,
+        "w": 425
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 853,
+        "w": 425
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "fontSize": "14px",
+    "lineHeight": "14px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 478
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 481,
+        "w": 478
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 959,
+        "w": 478
+      }
+    ]
+  },
+  {
+    "width": 1620,
+    "fontSize": "14px",
+    "lineHeight": "14px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 537.98
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 540.98,
+        "w": 538
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 1079,
+        "w": 538
+      }
+    ]
+  },
+  {
+    "width": 1621,
+    "fontSize": "18px",
+    "lineHeight": "18px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 538.33
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 541.33,
+        "w": 538.33
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 1079.67,
+        "w": 538.33
+      }
+    ]
+  },
+  {
+    "width": 1800,
+    "fontSize": "18px",
+    "lineHeight": "18px",
+    "rowPadding": "3px",
+    "marginTop": "450px",
+    "cells": [
+      {
+        "text": "Klikkenthéke",
+        "display": "block",
+        "x": 3,
+        "w": 597.98
+      },
+      {
+        "text": "Neue web des",
+        "display": "block",
+        "x": 600.98,
+        "w": 598
+      },
+      {
+        "text": "2026",
+        "display": "block",
+        "x": 1199,
+        "w": 598
+      }
+    ]
+  }
+]
