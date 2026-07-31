@@ -7,8 +7,163 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="msapplication-TileColor" content="#da532c">
   <link rel="stylesheet" href="style.css">
+
+  <!-- ===== intro (preloader) =====
+       Timeline ricostruita dalle misure in _analysis/REPORT.md:
+       hold 2000ms, poi opacity 1 -> 0 in 1000ms con cubic-bezier(0, .95, .44, 1),
+       fill forwards. Unica proprietà animata: opacity.
+       Inline nel <head> perché il cover deve essere già stilizzato al primo paint. -->
+  <style>
+    :root {
+      /* timeline */
+      --intro-hold-duration: 2000ms;
+      --intro-fade-duration: 1000ms;
+      --intro-fade-easing: cubic-bezier(0, 0.95, 0.44, 1);
+
+      /* griglia e tipografia (misurate a 1281-1620px) */
+      --intro-gutter: 3px;
+      --intro-font-size: 14px;
+      --intro-font-stack: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+      /* Il font originale è un webfont proprietario non riutilizzabile: il fallback ha
+         ascent/descent diversi, che con line-height:1 spostano la baseline di ~0.21em.
+         Compensato qui in em così da restare corretto a ogni breakpoint (vedi DIFF.md). */
+      --intro-baseline-nudge: -0.21em;
+
+      /* palette di fallback se JS è disattivato; altrimenti la sceglie lo script */
+      --intro-background: #002aff;
+      --intro-foreground: #ffffff;
+    }
+
+    /* Breakpoint tipografici misurati sull'originale (vedi breakpoint-sweep.json) */
+    @media (max-width: 666px) {
+      :root { --intro-font-size: 15px; --intro-gutter: 4px; }
+    }
+    @media (min-width: 667px) and (max-width: 1280px) {
+      :root { --intro-font-size: calc(8px + 7 * (100vw - 667px) / 613); }
+    }
+    @media (min-width: 1621px) {
+      :root { --intro-font-size: 18px; }
+    }
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      min-height: 100vh;
+      min-height: 100lvh;
+      z-index: 1200;
+      background: var(--intro-background);
+      color: var(--intro-foreground);
+      font-family: var(--intro-font-stack);
+      font-size: var(--intro-font-size);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: normal;
+      pointer-events: none;
+      will-change: opacity;
+      animation: intro-fade-out var(--intro-fade-duration) var(--intro-fade-easing)
+                 var(--intro-hold-duration) forwards;
+    }
+
+    @keyframes intro-fade-out {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
+    /* La riga parte esattamente a metà viewport, non è centrata su di esso. */
+    .intro-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 50vh;
+      margin-top: 50lvh;
+      padding-inline: var(--intro-gutter);
+      transform: translateY(var(--intro-baseline-nudge));
+    }
+
+    .intro-cell { padding-inline: var(--intro-gutter); }
+
+    /* Sotto i 667px l'originale passa a 2 colonne e nasconde la tagline centrale. */
+    @media (max-width: 666px) {
+      .intro-row { grid-template-columns: repeat(2, 1fr); }
+      .intro-tagline { display: none; }
+      .intro-year { text-align: right; }
+    }
+
+    /* Stato finale: invisibile e senza layer di composizione residuo. */
+    .intro--retired { visibility: hidden; will-change: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .intro { animation: none; opacity: 0; }
+    }
+  </style>
+
+  <script>
+    /* Sceglie la palette del cover prima del primo paint e lo ritira a fine animazione.
+       L'originale randomizza i colori server-side a ogni caricamento: qui la stessa
+       scelta avviene lato client, sulle 5 coppie misurate. */
+    (() => {
+      'use strict';
+
+      const INTRO_PALETTES = [
+        { background: '#002aff', foreground: '#ffffff' },
+        { background: '#999999', foreground: '#222222' },
+        { background: '#fff723', foreground: '#222222' },
+        { background: '#dd3333', foreground: '#ffffff' },
+        { background: '#222222', foreground: '#eeeeee' },
+      ];
+      const RETIRED_CLASS = 'intro--retired';
+
+      paintCoverBeforeFirstFrame();
+      retireCoverWhenFadeEnds();
+
+      function paintCoverBeforeFirstFrame() {
+        applyPalette(pickRandomPalette());
+      }
+
+      function retireCoverWhenFadeEnds() {
+        whenDocumentIsParsed(() => {
+          const cover = document.getElementById('intro');
+          if (!cover) return;
+          const retire = () => cover.classList.add(RETIRED_CLASS);
+          if (prefersReducedMotion()) retire();
+          else cover.addEventListener('animationend', retire, { once: true });
+        });
+      }
+
+      function pickRandomPalette() {
+        return INTRO_PALETTES[Math.floor(Math.random() * INTRO_PALETTES.length)];
+      }
+
+      function applyPalette({ background, foreground }) {
+        const root = document.documentElement.style;
+        root.setProperty('--intro-background', background);
+        root.setProperty('--intro-foreground', foreground);
+      }
+
+      function prefersReducedMotion() {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      }
+
+      function whenDocumentIsParsed(callback) {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', callback, { once: true });
+        } else {
+          callback();
+        }
+      }
+    })();
+  </script>
 </head>
 <body>
+
+  <!-- intro: sparisce da sé, decorativa -> nascosta agli screen reader -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-row">
+      <span class="intro-cell intro-wordmark">andre</span>
+      <span class="intro-cell intro-tagline">sito personale</span>
+      <span class="intro-cell intro-year">2026</span>
+    </div>
+  </div>
 
   <!-- layer folders: absolute inset-0 overflow-hidden select-none z-10 -->
   <div class="folders-layer">

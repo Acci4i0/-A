@@ -1,0 +1,114 @@
+{
+  "scripts": [
+    {
+      "url": "https://klikkentheke.com/wp-content/plugins/wp-consent-api/assets/js/wp-consent-api.min.js?ver=2.0.1",
+      "bytes": 2235
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/jsmin/plugins/plugins.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 8392
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/plugins/google-site-kit/dist/assets/js/googlesitekit-consent-mode-86cb52dcb9f2b27ed244.js",
+      "bytes": 72776
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/jsmin/kk.js?ver=1.7",
+      "bytes": 33986
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/js/plugins/jquery.validate.ex.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 5561
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/js/plugins/jquery.validate.min.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 23260
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/plugins/ewww-image-optimizer/includes/lazysizes.min.js?ver=874",
+      "bytes": 17528
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/plugins/complianz-gdpr/cookiebanner/js/complianz.min.js?ver=1785233012",
+      "bytes": 45492
+    },
+    {
+      "url": "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 88145
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-YVZ42YXCFE",
+      "bytes": 471895
+    },
+    {
+      "url": "https://unpkg.com/@swup/body-class-plugin@3.3.0/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 3028
+    },
+    {
+      "url": "https://unpkg.com/@swup/scroll-plugin@3.3.2/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 9639
+    },
+    {
+      "url": "https://unpkg.com/@swup/ga-plugin@2.0.0/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 2957
+    },
+    {
+      "url": "https://unpkg.com/swup@4.9.2/dist/Swup.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 25381
+    },
+    {
+      "url": "https://unpkg.com/@swup/debug-plugin@4.1.0/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 4674
+    },
+    {
+      "url": "https://unpkg.com/infinite-scroll@5.0.0/dist/infinite-scroll.pkgd.min.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 22450
+    },
+    {
+      "url": "https://unpkg.com/@swup/fragment-plugin@1.3.1/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 16933
+    },
+    {
+      "url": "https://unpkg.com/@swup/gtm-plugin@2.0.0/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 2423
+    },
+    {
+      "url": "https://unpkg.com/@swup/preload-plugin@3.2.11/dist/index.umd.js?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 8290
+    }
+  ],
+  "stylesheets": [
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/css/third-party/reset.css?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 2058
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/plugins/complianz-gdpr/assets/css/cookieblocker.min.css?ver=1785233012",
+      "bytes": 2782
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/fonts/arrows/stylesheet.css?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 181
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/fonts/texgyreheros_bold/stylesheet.css?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 216
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/fonts/kkicons/stylesheet.css?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 746
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/fonts/neuehaas/stylesheet.css?ver=b1dd618e59b56ed78c2f99c04e589a35",
+      "bytes": 622
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/uploads/complianz/css/banner-1-optin.css?ver=1785233042",
+      "bytes": 17844
+    },
+    {
+      "url": "https://klikkentheke.com/wp-content/themes/klikkentheke/scss/style.css?v=20260612&ver=7.0.2",
+      "bytes": 65673
+    }
+  ]
+}
