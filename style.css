@@ -272,8 +272,14 @@ img { max-width: 100%; height: auto; display: block; vertical-align: middle; }
 
 /* figure allineata al margine sinistro del contenuto, come nell'originale:
    nessun centraggio, la didascalia parte dal bordo sinistro dell'immagine.
+   width:max-content stringe la figure sull'immagine, così la didascalia vive
+   nella sua stessa colonna invece di attraversare tutto il contenuto.
    Stesso stacco verticale (my-5) delle altre figure del sito. */
-.prose > .nt-plate { margin: 1.25rem 0; }
+.prose > .nt-plate {
+  margin: 1.25rem 0;
+  width: max-content;
+  max-width: 100%;
+}
 
 /* stessa scala tipografica di .nt-date, smorzata come i link secondari */
 .nt-caption {
