@@ -18,9 +18,16 @@
     <span class="nt-date">luglio 15 2026</span>
   </div>
 
-  <!-- contenuto: prose mx-6 pb-6 max-w-[900px] — solo un'immagine width=300 -->
+  <!-- contenuto: prose mx-6 pb-6 max-w-[900px] — immagine con didascalia -->
   <div class="prose nt-content nt-content--master">
-    <p><img width="300" src="assets/master-600x747.png" alt=""></p>
+    <figure class="nt-figure nt-figure--captioned">
+      <!-- width/height = dimensioni intrinseche (534x800): il browser riserva lo spazio
+           con l'aspect ratio esatto, la larghezza a video la decide .nt-photo--master -->
+      <img class="nt-photo nt-photo--master" width="534" height="800"
+           src="assets/rothko-no10-1948.jpg"
+           alt="No. 10, dipinto di Mark Rothko del 1948: campi scuri e gialli su fondo rosa pallido">
+      <figcaption class="nt-caption">No. 10 &mdash; Mark Rothko, 1948</figcaption>
+    </figure>
   </div>
 
 </body>
