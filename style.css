@@ -270,18 +270,15 @@ img { max-width: 100%; height: auto; display: block; vertical-align: middle; }
 /* pagina master: immagine più grande dell'originale a 210px */
 .nt-photo--master { width: 300px; }
 
-/* figure con didascalia: colonna centrata, l'immagine detta la larghezza */
-.prose > .nt-figure--captioned {
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-}
+/* figure allineata al margine sinistro del contenuto, come nell'originale:
+   nessun centraggio, la didascalia parte dal bordo sinistro dell'immagine.
+   Stesso stacco verticale (my-5) delle altre figure del sito. */
+.prose > .nt-plate { margin: 1.25rem 0; }
 
 /* stessa scala tipografica di .nt-date, smorzata come i link secondari */
 .nt-caption {
   margin-top: .5rem;
   font-size: .625rem;
   line-height: 1rem;
-  text-align: center;
   color: rgba(255, 255, 255, .5);
 }
