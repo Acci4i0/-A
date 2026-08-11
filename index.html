@@ -30,9 +30,11 @@
          Compensato qui in em così da restare corretto a ogni breakpoint (vedi DIFF.md). */
       --intro-baseline-nudge: -0.21em;
 
-      /* palette di fallback se JS è disattivato; altrimenti la sceglie lo script */
-      --intro-background: #002aff;
-      --intro-foreground: #ffffff;
+      /* Unica identità cromatica dell'intro: l'azzurro del sito.
+         Il colore vive solo qui e nessuno script lo tocca a runtime, quindi
+         non esiste alcun percorso di codice che possa produrne un altro. */
+      --intro-blue: #49A4F6;
+      --intro-ink: #222222;
     }
 
     /* Breakpoint tipografici misurati sull'originale (vedi breakpoint-sweep.json) */
@@ -52,8 +54,8 @@
       min-height: 100vh;
       min-height: 100lvh;
       z-index: 1200;
-      background: var(--intro-background);
-      color: var(--intro-foreground);
+      background: var(--intro-blue);
+      color: var(--intro-ink);
       font-family: var(--intro-font-stack);
       font-size: var(--intro-font-size);
       font-weight: 400;
@@ -98,27 +100,14 @@
   </style>
 
   <script>
-    /* Sceglie la palette del cover prima del primo paint e lo ritira a fine animazione.
-       L'originale randomizza i colori server-side a ogni caricamento: qui la stessa
-       scelta avviene lato client, sulle 5 coppie misurate. */
+    /* Ritira il cover a fine animazione. Del colore non si occupa: è fissato in
+       CSS (--intro-blue) e nessuno lo cambia a runtime. */
     (() => {
       'use strict';
 
-      const INTRO_PALETTES = [
-        { background: '#002aff', foreground: '#ffffff' },
-        { background: '#999999', foreground: '#222222' },
-        { background: '#fff723', foreground: '#222222' },
-        { background: '#dd3333', foreground: '#ffffff' },
-        { background: '#222222', foreground: '#eeeeee' },
-      ];
       const RETIRED_CLASS = 'intro--retired';
 
-      paintCoverBeforeFirstFrame();
       retireCoverWhenFadeEnds();
-
-      function paintCoverBeforeFirstFrame() {
-        applyPalette(pickRandomPalette());
-      }
 
       function retireCoverWhenFadeEnds() {
         whenDocumentIsParsed(() => {
@@ -128,16 +117,6 @@
           if (prefersReducedMotion()) retire();
           else cover.addEventListener('animationend', retire, { once: true });
         });
-      }
-
-      function pickRandomPalette() {
-        return INTRO_PALETTES[Math.floor(Math.random() * INTRO_PALETTES.length)];
-      }
-
-      function applyPalette({ background, foreground }) {
-        const root = document.documentElement.style;
-        root.setProperty('--intro-background', background);
-        root.setProperty('--intro-foreground', foreground);
       }
 
       function prefersReducedMotion() {
