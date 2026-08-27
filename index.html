@@ -187,10 +187,22 @@
     </div>
   </div>
 
-  <!-- social bottom: fixed bottom-8, centrato -->
+  <!-- social bottom: fixed bottom-8, centrato.
+       Ai lati due figure animate. Sono <button> veri, non div cliccabili: sono
+       controlli, e vanno raggiunti da tastiera. L'aria-label distingue i due
+       lati, altrimenti uno screen reader annuncerebbe due voci identiche.
+       Lo sprite e' uno <span> interno aria-hidden: essendo separato dal bottone
+       puo' sbordare fuori dal box durante l'animazione senza allargare l'area
+       di click, che resta quella del blob a riposo. -->
   <div class="socialbar">
     <div class="socialbar-inner">
-      <a class="social-link" href="mailto:lando.andrea04@gmail.com">mail</a> / <a class="social-link" href="https://instagram.com/andrelndo" target="_blank" rel="noreferrer">instagram</a> / <a class="social-link" href="https://github.com/Acci4i0" target="_blank" rel="noreferrer">github</a>
+      <button type="button" class="figure" data-figure aria-label="Play the figure animation (left)">
+        <span class="figure-sprite" aria-hidden="true"></span>
+      </button>
+      <span class="socialbar-links"><a class="social-link" href="mailto:lando.andrea04@gmail.com">mail</a> / <a class="social-link" href="https://instagram.com/andrelndo" target="_blank" rel="noreferrer">instagram</a> / <a class="social-link" href="https://github.com/Acci4i0" target="_blank" rel="noreferrer">github</a></span>
+      <button type="button" class="figure" data-figure aria-label="Play the figure animation (right)">
+        <span class="figure-sprite" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
 
