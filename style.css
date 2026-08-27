@@ -161,12 +161,22 @@ img { max-width: 100%; height: auto; display: block; vertical-align: middle; }
   z-index: 30;
 }
 
-/* originale: absolute bottom-0 text-black/50 font-mono */
+/* originale: absolute bottom-0 text-black/50 font-mono
+   + riga flex, per reggere le due figure ai lati (vedi sezione FIGURE in fondo).
+
+   Il bottom non e' piu' 0: questo elemento e' ancorato in basso dentro un
+   contenitore alto 0, quindi crescendo da 17.6px (una riga di testo) a
+   --fig-h spingerebbe il testo verso l'alto di meta' della differenza.
+   Il calc restituisce esattamente quello scarto, cosi' la riga di link resta
+   al pixel dov'era prima delle figure. */
 .socialbar-inner {
   position: absolute;
-  bottom: 0;
+  bottom: calc((1.1rem - var(--fig-h)) / 2);
   color: rgba(0, 0, 0, .5);
   font-family: JetBrains Mono, monospace;
+  display: flex;
+  align-items: center;
+  gap: var(--fig-gap);
 }
 .social-link:hover { color: rgb(205 63 37); }
 
@@ -287,4 +297,90 @@ img { max-width: 100%; height: auto; display: block; vertical-align: middle; }
   font-size: .625rem;
   line-height: 1rem;
   color: rgba(255, 255, 255, .5);
+}
+
+/* ===== FIGURE (sprite click-to-play) =====
+   Due figure animate ai lati della riga social. L'asset di partenza e' un GIF
+   (640x640, 350 frame dichiarati, 175 reali, sfondo opaco, loop infinito).
+   Un GIF nel browser non ha API: non si ferma, non si riavvolge, non si
+   riproduce una volta sola. E' stato quindi convertito una tantum in uno sprite
+   sheet PNG con tools/build-sprite.py, pilotato a mano in main.js.
+   Nessuna transition: come nel resto del foglio, e comunque lo sprite si muove
+   a scatti di frame per definizione. */
+
+:root {
+  /* Unica misura da toccare: l'altezza della persona a riposo. Tutto il resto ne
+     e' un multiplo, perche' la figura non e' centrata nel crop dello sprite e va
+     riallineata al box. */
+  --fig-h: 38px;
+  --fig-gap: 30px;
+
+  /* Rapporti stampati da tools/build-sprite.py: derivano dal crop 370x504 e dal
+     fotogramma di riposo (frame 158), che dentro il crop occupa 259x427 con
+     origine (77,32). Se si cambia scala, ritaglio o frame di riposo vanno
+     rigenerati da li', non ricalcolati a mano. */
+  --fig-w: calc(var(--fig-h) * 0.6066);
+  --fig-sprite-w: calc(var(--fig-h) * 0.8665);
+  --fig-sprite-h: calc(var(--fig-h) * 1.1803);
+  --fig-offset-x: calc(var(--fig-h) * -0.1803);
+  --fig-offset-y: calc(var(--fig-h) * -0.0749);
+}
+
+/* Sotto i 360px la riga starebbe stretta: si accorcia lo stacco, non si toglie
+   nulla. 195px di testo + 2*23 di figure + 2*20 di gap = 281px, che a 320px di
+   viewport lascia 19px di margine per lato. */
+@media (max-width: 360px) {
+  :root { --fig-gap: 20px; }
+}
+
+/* Box fisso in ogni stato: e' esattamente la sagoma della persona a riposo.
+   Nessuno stato tocca il layout. */
+.figure {
+  position: relative;
+  flex: none;
+  width: var(--fig-w);
+  height: var(--fig-h);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Il box e' 23x38: stretto sotto il minimo WCAG di 44px sull'asse orizzontale.
+   L'area di tocco sale a 45x60 senza che il box occupi un pixel in piu' nel flusso. */
+.figure::before {
+  content: "";
+  position: absolute;
+  inset: -11px;
+}
+
+/* Con prefers-reduced-motion main.js disabilita il bottone: resta il frame di
+   riposo, ma non deve piu' sembrare cliccabile. */
+.figure[disabled] { cursor: default; }
+
+/* Lo sprite e' un po' piu' grande del bottone e ne esce durante l'animazione,
+   ma di poco: ancorando il box a una figura intera invece che al blob, lo sbordo
+   massimo e' 0.180 dell'altezza a sinistra e 0.105 sotto (circa 7px e 4px a 38px).
+   pointer-events:none lascia il click al bottone sotto.
+
+   background-position parte dal fotogramma di riposo (frame 158 = colonna 4,
+   riga 11) e non da 0/0, che sarebbe il blob: cosi' la persona e' gia' quella
+   giusta al primo paint, senza aspettare il JS e senza lampeggiare.
+
+   background-size e' dichiarato su ENTRAMBI gli assi di proposito. Con `auto`
+   il browser ricaverebbe l'altezza dal rapporto del foglio (1400x1768) e la
+   cella verrebbe 67.87px invece di 68: uno scarto che si accumula fino a ~1.6px
+   sull'ultima riga della griglia, tagliando i frame. */
+.figure-sprite {
+  position: absolute;
+  left: var(--fig-offset-x);
+  top: var(--fig-offset-y);
+  width: var(--fig-sprite-w);
+  height: var(--fig-sprite-h);
+  pointer-events: none;
+  background-image: url(assets/figure-sprite.png);
+  background-repeat: no-repeat;
+  background-size: calc(var(--fig-sprite-w) * 14) calc(var(--fig-sprite-h) * 13);
+  background-position: calc(var(--fig-sprite-w) * -4) calc(var(--fig-sprite-h) * -11);
 }

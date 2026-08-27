@@ -201,4 +201,121 @@
   document.querySelectorAll('a[data-inert="true"]').forEach(function (a) {
     a.addEventListener("click", function (e) { e.preventDefault(); });
   });
+
+  /* ================= FIGURE (sprite click-to-play) ================= */
+  /* Due figure animate ai lati della riga social. L'asset di partenza e' un GIF,
+     che il browser non sa pilotare: parte da solo al load e cicla all'infinito,
+     senza modo di fermarlo o riavvolgerlo. E' stato convertito una tantum in uno
+     sprite sheet (tools/build-sprite.py) e qui viene avanzato a mano, un frame
+     alla volta, spostando il background-position.
+
+     175 frame su una griglia 14x13, 60ms l'uno: 10.5s, la cadenza con cui
+     l'animazione e' stata disegnata.
+
+     Il riposo NON e' il frame 0: quello e' il blob, brutto da tenere fermo sotto
+     gli occhi. Il ciclo e' chiuso (la giuntura muove meno pixel di un normale
+     passo fra frame), quindi puo' partire da dove si vuole. Parte dal 158, una
+     persona in piedi: da li' la figura si ripiega nel blob, che resta come fase
+     interna dell'animazione, poi si riapre e torna in piedi. */
+
+  var FIG_COLS = 14;
+  var FIG_FRAMES = 175;
+  var FIG_FRAME_MS = 60;
+  var FIG_REST = 158;
+
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // Uno stato per istanza: le due figure non condividono niente, cliccarne una
+  // non tocca l'altra.
+  var figures = [].map.call(document.querySelectorAll("[data-figure]"), function (button) {
+    var fig = {
+      button: button,
+      sprite: button.querySelector(".figure-sprite"),
+      playing: false,
+      rafId: 0,
+      startTime: 0,
+      cellW: 0,
+      cellH: 0
+    };
+    button.addEventListener("click", function () { startFigure(fig); });
+    return fig;
+  });
+
+  // Il passo della cella e' la dimensione resa dello sprite, non una costante:
+  // cosi' segue il breakpoint del CSS senza doverne duplicare i valori qui.
+  function measureFigure(fig) {
+    var rect = fig.sprite.getBoundingClientRect();
+    fig.cellW = rect.width;
+    fig.cellH = rect.height;
+  }
+
+  /* Tornare a riposo significa TOGLIERE lo stile inline, non riscriverlo: cosi'
+     la posizione torna quella dichiarata in .figure-sprite, espressa in multipli
+     delle variabili CSS. Segue da se' il breakpoint, senza rimisurare niente.
+     Riscrivendola in pixel resterebbe congelata alla dimensione del momento. */
+  function restFigure(fig) {
+    fig.sprite.style.backgroundPosition = "";
+  }
+
+  function showFigureFrame(fig, frame) {
+    fig.sprite.style.backgroundPosition =
+      -(frame % FIG_COLS) * fig.cellW + "px " +
+      -Math.floor(frame / FIG_COLS) * fig.cellH + "px";
+  }
+
+  function startFigure(fig) {
+    // Click durante la riproduzione: ignorato. Niente coda, niente ripartenza,
+    // niente secondo rAF sullo stesso elemento.
+    if (fig.playing || reducedMotion.matches) return;
+
+    measureFigure(fig);
+    fig.playing = true;
+    fig.startTime = performance.now();
+    fig.rafId = requestAnimationFrame(function tick(now) {
+      // Il frame si ricava dal tempo trascorso, non da un contatore che avanza:
+      // se la tab va in background il rAF si ferma, e al ritorno il ciclo
+      // risulta gia' concluso invece di restare bloccato a meta'.
+      // Il timestamp del rAF puo' precedere di poco performance.now(), da cui il
+      // clamp: senza, il primo giro mostrerebbe la cella -1.
+      var step = Math.max(0, Math.floor((now - fig.startTime) / FIG_FRAME_MS));
+      if (step >= FIG_FRAMES) {
+        fig.playing = false;
+        restFigure(fig);
+        return;
+      }
+      showFigureFrame(fig, (FIG_REST + step) % FIG_FRAMES);
+      fig.rafId = requestAnimationFrame(tick);
+    });
+  }
+
+  /* prefers-reduced-motion: resta il fotogramma di riposo e nient'altro. Il
+     bottone smette di essere un controllo azionabile, altrimenti verrebbe
+     annunciato come tale pur non facendo piu' niente. */
+  function applyFigureMotionPreference() {
+    var off = reducedMotion.matches;
+    figures.forEach(function (fig) {
+      if (off && fig.playing) {
+        cancelAnimationFrame(fig.rafId);
+        fig.playing = false;
+        restFigure(fig);
+      }
+      fig.button.disabled = off;
+      if (off) fig.button.setAttribute("aria-hidden", "true");
+      else fig.button.removeAttribute("aria-hidden");
+    });
+  }
+
+  applyFigureMotionPreference();
+  if (reducedMotion.addEventListener) {
+    reducedMotion.addEventListener("change", applyFigureMotionPreference);
+  } else if (reducedMotion.addListener) {
+    reducedMotion.addListener(applyFigureMotionPreference);   // Safari < 14
+  }
+
+  // Il passo cambia col breakpoint: chi sta girando va rimisurato al volo.
+  // Chi e' fermo non ha stile inline e sta sulla posizione di riposo dichiarata
+  // in CSS, che e' espressa in multipli delle stesse variabili: si adatta da se'.
+  window.addEventListener("resize", function () {
+    figures.forEach(function (fig) { if (fig.playing) measureFigure(fig); });
+  });
 })();
