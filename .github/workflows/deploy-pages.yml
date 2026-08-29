@@ -20,7 +20,10 @@
 #
 # E' successo davvero al primo deploy. configure-pages con enablement:true non
 # basta: enabla Pages se manca, ma non converte una configurazione gia' esistente
-# da "branch" a "workflow". Per questo lo step qui sotto lo forza via API.
+# da "branch" a "workflow", e nemmeno l'API col token del workflow ci riesce.
+# Va impostato una volta a mano in Settings > Pages. Lo step qui sotto lo
+# verifica e blocca il run se manca, invece di lasciar passare un deploy verde
+# che pubblica un sito rotto.
 
 name: Deploy static site to Pages
 
@@ -52,13 +55,26 @@ jobs:
       - name: Checkout della home
         uses: actions/checkout@v4
 
-      # Va prima di tutto il resto: se il build fallisce, la Source e' comunque
-      # gia' sistemata e i deploy successivi non vengono piu' sovrascritti.
-      - name: Forza la Source di Pages su GitHub Actions
+      # Se la Source e' ancora "Deploy from a branch" questo deploy verra'
+      # sovrascritto dalla pipeline legacy e /foto/ e /info/ risponderanno 404,
+      # MA il run risultera' comunque verde: il modo peggiore di fallire.
+      # Quindi si controlla e si ferma tutto subito, con le istruzioni.
+      #
+      # Non e' automatizzabile da qui: il token del workflow non riesce a
+      # cambiare l'impostazione (provato con
+      # `gh api -X PUT repos/$GITHUB_REPOSITORY/pages -f build_type=workflow`,
+      # senza effetto). Va fatto una volta a mano.
+      - name: Verifica che la Source di Pages sia "GitHub Actions"
         run: |
-          gh api -X PUT "repos/$GITHUB_REPOSITORY/pages" -f build_type=workflow \
-            && echo "Source impostata su GitHub Actions" \
-            || echo "non modificabile (gia' corretta o permessi insufficienti): proseguo"
+          TYPE=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .build_type 2>/dev/null || echo sconosciuto)
+          echo "build_type = $TYPE"
+          if [ "$TYPE" = "legacy" ]; then
+            echo "::error::La Source di Pages e' 'Deploy from a branch'. Con questa \
+          impostazione GitHub pubblica il repo grezzo, che non contiene foto/ e info/ \
+          (vengono montate qui durante il build), e sovrascrive questo deploy. \
+          Vai su Settings > Pages > Build and deployment e metti Source: GitHub Actions."
+            exit 1
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
 
