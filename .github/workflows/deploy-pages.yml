@@ -1,9 +1,31 @@
+# Pubblica and-re.com su GitHub Pages a ogni push su main.
+#
+# Il sito non e' fatto di un repo solo: la cartella "foto" e la cartella "info"
+# della home sono due progetti che vivono in repo separati, e vengono montati
+# qui al momento del deploy invece di essere copiati dentro questo repo.
+#
+# Cosi' ogni progetto resta la fonte di verita' di se stesso (niente copie da
+# tenere allineate a mano), questo repo resta leggero - il build della gallery
+# da solo pesa 26 MB, che altrimenti finirebbero per sempre nella storia di git -
+# e i due siti continuano a funzionare anche ai loro indirizzi originali.
+#
+# Il prezzo: il deploy della home passa da pochi secondi a un paio di minuti, e
+# se il build della gallery si rompe non esce online nemmeno la home.
+#
+# configure-pages con enablement:true imposta da solo la Source su
+# "GitHub Actions": se resta "Deploy from a branch", GitHub fa partire anche la
+# pipeline legacy che, finendo per ultima, puo' sovrascrivere il deploy.
+
 name: Deploy static site to Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  # I due repo montati qui non sanno di questo sito: quando cambiano, il loro
+  # deploy aggiorna solo il loro indirizzo. Per riflettere la modifica anche su
+  # and-re.com va rilanciato questo workflow a mano (o si aggiunge un
+  # repository_dispatch da quei repo).
 
 permissions:
   contents: read
@@ -21,8 +43,52 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout della home
         uses: actions/checkout@v4
+
+      # --- cartella "info": il cruciverba, statico puro, si copia com'e' ---
+      - name: Checkout del cruciverba in info/
+        uses: actions/checkout@v4
+        with:
+          repository: Acci4i0/crossword
+          path: info
+
+      # --- cartella "foto": la gallery, app Vite, va buildata ---
+      # Il sorgente viene messo in una cartella temporanea e cancellato dopo aver
+      # copiato il build: l'artifact carica '.', quindi qualunque cosa resti qui
+      # dentro finirebbe pubblicata (sorgenti e node_modules compresi).
+      - name: Checkout della gallery
+        uses: actions/checkout@v4
+        with:
+          repository: Acci4i0/3Dgallery
+          path: .gallery-src
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: .gallery-src/package-lock.json
+
+      - name: Build della gallery
+        working-directory: .gallery-src
+        run: |
+          npm ci
+          npm run build
+
+      - name: Monta la gallery in foto/ e ripulisci
+        run: |
+          mkdir -p foto
+          cp -r .gallery-src/dist/. foto/
+          rm -rf .gallery-src
+          # il .git dei repo montati non va pubblicato
+          rm -rf info/.git
+
+      - name: Controlla che il montaggio sia riuscito
+        run: |
+          test -f foto/index.html || { echo "manca foto/index.html"; exit 1; }
+          test -f info/index.html || { echo "manca info/index.html"; exit 1; }
+          test ! -e .gallery-src || { echo ".gallery-src non e' stato rimosso"; exit 1; }
+          echo "foto/ $(du -sh foto | cut -f1)  |  info/ $(du -sh info | cut -f1)"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
