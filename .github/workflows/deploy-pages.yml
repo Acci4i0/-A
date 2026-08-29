@@ -12,9 +12,15 @@
 # Il prezzo: il deploy della home passa da pochi secondi a un paio di minuti, e
 # se il build della gallery si rompe non esce online nemmeno la home.
 #
-# configure-pages con enablement:true imposta da solo la Source su
-# "GitHub Actions": se resta "Deploy from a branch", GitHub fa partire anche la
-# pipeline legacy che, finendo per ultima, puo' sovrascrivere il deploy.
+# ATTENZIONE alla Source di Pages. Se resta su "Deploy from a branch", GitHub
+# lancia in parallelo anche la pipeline legacy "pages build and deployment", che
+# pubblica il repo COSI' COM'E' - cioe' senza foto/ e info/, che qui non sono
+# committate ma nascono durante il build. Finendo per ultima sovrascrive questo
+# deploy, e i due percorsi rispondono 404.
+#
+# E' successo davvero al primo deploy. configure-pages con enablement:true non
+# basta: enabla Pages se manca, ma non converte una configurazione gia' esistente
+# da "branch" a "workflow". Per questo lo step qui sotto lo forza via API.
 
 name: Deploy static site to Pages
 
@@ -45,6 +51,16 @@ jobs:
     steps:
       - name: Checkout della home
         uses: actions/checkout@v4
+
+      # Va prima di tutto il resto: se il build fallisce, la Source e' comunque
+      # gia' sistemata e i deploy successivi non vengono piu' sovrascritti.
+      - name: Forza la Source di Pages su GitHub Actions
+        run: |
+          gh api -X PUT "repos/$GITHUB_REPOSITORY/pages" -f build_type=workflow \
+            && echo "Source impostata su GitHub Actions" \
+            || echo "non modificabile (gia' corretta o permessi insufficienti): proseguo"
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       # --- cartella "info": il cruciverba, statico puro, si copia com'e' ---
       - name: Checkout del cruciverba in info/
