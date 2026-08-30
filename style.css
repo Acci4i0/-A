@@ -238,6 +238,26 @@ img { max-width: 100%; height: auto; display: block; vertical-align: middle; }
   line-height: 1rem;
 }
 
+/* Tasto lingua, in alto a destra dell'header. margin-left:auto lo spinge al
+   bordo destro dentro il padding da 1.5rem gia' presente sull'header.
+   Stessa scala tipografica della data; niente verde perche' non e' un link. */
+.nt-lang {
+  margin-left: auto;
+  font-family: inherit;
+  font-size: .625rem;
+  line-height: 1rem;
+  letter-spacing: .08em;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .45);
+  padding: .15rem .4rem;
+  cursor: pointer;
+}
+
+.nt-lang:hover {
+  border-color: #fff;
+}
+
 /* originale: prose (custom) — max-width:65ch poi override utility 440px */
 .prose {
   color: inherit;
