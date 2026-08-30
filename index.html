@@ -15,12 +15,8 @@
        Inline nel <head> perché il cover deve essere già stilizzato al primo paint. -->
   <style>
     :root {
-      /* timeline. I primi due valori vengono dal video di riferimento, misurato
-         fotogramma per fotogramma: il nome resta fermo ~1.9s, poi si disfa per
-         ~8.6s con una progressione che accelera (la variazione per fotogramma
-         passa dal 3% al 10.7%), infine resta fermo sullo stato finale. */
-      --intro-hold-duration: 1900ms;
-      --intro-melt-duration: 8600ms;
+      /* timeline */
+      --intro-hold-duration: 2000ms;
       --intro-fade-duration: 1000ms;
       --intro-fade-easing: cubic-bezier(0, 0.95, 0.44, 1);
 
@@ -34,12 +30,11 @@
          Compensato qui in em così da restare corretto a ogni breakpoint (vedi DIFF.md). */
       --intro-baseline-nudge: -0.21em;
 
-      /* Unica identità cromatica dell'intro: l'azzurro del sito, con la scritta
-         in bianco sopra. Il colore vive solo qui e nessuno script lo tocca a
-         runtime, quindi non esiste alcun percorso di codice che possa
-         produrne un altro. */
+      /* Unica identità cromatica dell'intro: l'azzurro del sito.
+         Il colore vive solo qui e nessuno script lo tocca a runtime, quindi
+         non esiste alcun percorso di codice che possa produrne un altro. */
       --intro-blue: #49A4F6;
-      --intro-ink: #ffffff;
+      --intro-ink: #222222;
     }
 
     /* Breakpoint tipografici misurati sull'originale (vedi breakpoint-sweep.json) */
@@ -69,7 +64,7 @@
       pointer-events: none;
       will-change: opacity;
       animation: intro-fade-out var(--intro-fade-duration) var(--intro-fade-easing)
-                 calc(var(--intro-hold-duration) + var(--intro-melt-duration)) forwards;
+                 var(--intro-hold-duration) forwards;
     }
 
     @keyframes intro-fade-out {
@@ -89,22 +84,6 @@
 
     .intro-cell { padding-inline: var(--intro-gutter); }
 
-    /* Il nome si disfa in verticale ma NON in orizzontale: nel video di
-       riferimento il riquadro del testo resta largo esattamente uguale dal primo
-       all'ultimo fotogramma (219..950 px), mentre l'altezza passa da 138 a 458.
-       Le lettere quindi si allungano e slittano su e giù, ognuna per conto suo,
-       senza mai spostarsi di lato. inline-block serve a poterle trasformare;
-       will-change tiene ogni lettera sul suo layer. */
-    .intro-glyph {
-      display: inline-block;
-      transform-origin: 50% 50%;
-      white-space: pre;
-      will-change: transform;
-    }
-
-    /* A fine corsa il layer non serve piu'. */
-    .intro--retired .intro-glyph { will-change: auto; }
-
     /* Sotto i 667px l'originale passa a 2 colonne e nasconde la tagline centrale. */
     @media (max-width: 666px) {
       .intro-row { grid-template-columns: repeat(2, 1fr); }
@@ -117,9 +96,6 @@
 
     @media (prefers-reduced-motion: reduce) {
       .intro { animation: none; opacity: 0; }
-      /* lo script non parte nemmeno, ma se una lettera fosse gia' stata
-         trasformata questa la rimette a posto */
-      .intro-glyph { transform: none !important; text-shadow: none !important; }
     }
   </style>
 
@@ -154,115 +130,6 @@
           callback();
         }
       }
-
-      /* ===== disfacimento del nome =====
-         Ricostruito dal video di riferimento invece di incorporarlo: il video e'
-         nero su bianco e pesa 7.6 MB, qui serve bianco su azzurro. In codice
-         resta nitido a ogni risoluzione, non costa un download e si spegne da
-         solo con prefers-reduced-motion.
-
-         Quello che il video fa, misurato fotogramma per fotogramma:
-           - la banda del testo resta larga UGUALE dall'inizio alla fine
-             (219..950 px), quindi niente si sposta di lato;
-           - l'altezza passa da 138 a 458 px, cioe' x3.3: le lettere si allungano
-             e slittano in verticale;
-           - l'inchiostro passa dall'1.69% all'8.15%, x4.8 — piu' del solo
-             allungamento, da cui la scia che ogni lettera si lascia dietro;
-           - la variazione per fotogramma cresce dal 3% al 10.7%: il disfacimento
-             accelera, e infatti la progressione qui e' elevata al cubo.
-
-         Le misure sono tutte in EM, non in pixel: il corpo del testo dell'intro
-         cambia col viewport (da 8px a 18px), e uno slittamento fisso in pixel
-         darebbe una proporzione diversa a ogni larghezza di finestra. In em il
-         rapporto x3.3 fra altezza finale e iniziale resta lo stesso ovunque. */
-
-      const MELT_MAX_STRETCH = 1.60;  // quanto si allunga in piu' (scaleY)
-      const MELT_MAX_DRIFT_EM = 0.58; // slittamento verticale massimo, in em
-      const MELT_TRAIL_EM = 0.30;     // passo della scia, in em
-      const MELT_TRAIL = 5;           // copie nella scia, a piena velocita'
-
-      meltTheName();
-
-      function meltTheName() {
-        whenDocumentIsParsed(() => {
-          const name = document.getElementById('intro-name');
-          if (!name || prefersReducedMotion()) return;
-
-          const glyphs = splitIntoGlyphs(name);
-          const em = () => parseFloat(getComputedStyle(name).fontSize) || 16;
-          const style = getComputedStyle(document.documentElement);
-          const hold = parseFloat(style.getPropertyValue('--intro-hold-duration'));
-          const melt = parseFloat(style.getPropertyValue('--intro-melt-duration'));
-
-          const start = performance.now();
-          requestAnimationFrame(function tick(now) {
-            const elapsed = now - start;
-            if (elapsed < hold) { requestAnimationFrame(tick); return; }
-
-            // 0 -> 1 sul tratto di disfacimento, poi al cubo: il ritmo accelera
-            const linear = Math.min(1, (elapsed - hold) / melt);
-            const p = linear * linear * linear;
-
-            const unit = em();
-            glyphs.forEach((g) => applyMelt(g, p, unit));
-
-            if (linear < 1) requestAnimationFrame(tick);
-          });
-        });
-      }
-
-      /* Una lettera per span, con un seme stabile: la stessa lettera si disfa
-         sempre allo stesso modo, cosi' l'intro non e' diversa a ogni reload. */
-      function splitIntoGlyphs(host) {
-        const text = host.textContent;
-        host.textContent = '';
-        return Array.from(text).map((ch, i) => {
-          const span = document.createElement('span');
-          span.className = 'intro-glyph';
-          span.textContent = ch;
-          host.appendChild(span);
-          const r = seeded(i);
-          return {
-            el: span,
-            stretch: 0.4 + r(),        // quanto si allunga
-            drift: r() * 2 - 1,        // in su o in giu'
-            lag: 0.55 + r() * 0.45     // chi parte prima e chi dopo
-          };
-        });
-      }
-
-      /* Generatore deterministico (mulberry32): stesse lettere, stesso esito. */
-      function seeded(i) {
-        let a = (i + 1) * 0x9e3779b9 >>> 0;
-        return function () {
-          a = (a + 0x6d2b79f5) >>> 0;
-          let t = Math.imul(a ^ (a >>> 15), 1 | a);
-          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function applyMelt(g, p, em) {
-        const q = Math.min(1, p * g.lag);
-        const scaleY = 1 + q * MELT_MAX_STRETCH * g.stretch;
-        const shiftY = q * MELT_MAX_DRIFT_EM * em * g.drift;
-        g.el.style.transform = 'translateY(' + shiftY.toFixed(2) + 'px) scaleY(' + scaleY.toFixed(3) + ')';
-        g.el.style.textShadow = smear(q, g.drift, em);
-      }
-
-      /* La scia: copie sempre piu' distanti e sempre piu' scariche, nella stessa
-         direzione in cui la lettera sta slittando. E' quello che nel video fa
-         salire l'inchiostro piu' di quanto salga la sola altezza. */
-      function smear(q, dir, em) {
-        if (q <= 0) return 'none';
-        const parts = [];
-        for (let n = 1; n <= MELT_TRAIL; n++) {
-          const offset = (q * MELT_TRAIL_EM * em * n * (dir >= 0 ? 1 : -1)).toFixed(1);
-          const alpha = (0.5 * q * (1 - n / (MELT_TRAIL + 1))).toFixed(3);
-          parts.push('0 ' + offset + 'px 0 rgba(255,255,255,' + alpha + ')');
-        }
-        return parts.join(', ');
-      }
     })();
   </script>
 </head>
@@ -271,7 +138,7 @@
   <!-- intro: sparisce da sé, decorativa -> nascosta agli screen reader -->
   <div class="intro" id="intro" aria-hidden="true">
     <div class="intro-row">
-      <span class="intro-cell intro-wordmark" id="intro-name">Lando Andrea</span>
+      <span class="intro-cell intro-wordmark">andre</span>
       <span class="intro-cell intro-tagline">sito personale</span>
       <span class="intro-cell intro-year">2026</span>
     </div>
