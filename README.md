@@ -1,45 +1,56 @@
-# A
+# desktop — a personal site shaped like a desktop
 
-Sito personale con interfaccia "desktop": cartelle trascinabili in stile
-retro pixel-art, una pagina-lettera e una pagina-immagine.
+A personal site with a desktop interface: draggable pixel-art folders, a letter
+page and an image page. Vanilla HTML, CSS and JavaScript — no build, no
+dependencies.
 
-L'interazione replica fedelmente le meccaniche di [oklama.com](https://oklama.com/)
-(drag senza fisica con soglia di 4px, z-index incrementale a ogni presa,
-persistenza delle posizioni in localStorage, modal senza animazioni),
-ricavate dai parametri documentati in [EXTRACTED_PARAMS.md](EXTRACTED_PARAMS.md).
-Il confronto comportamento per comportamento è in [CHECKLIST.md](CHECKLIST.md).
+**Live:** https://acci4i0.github.io/-A/
 
-## Pagine
+> **Rebuild study.** The interaction is modelled on [oklama.com](https://oklama.com/):
+> drag without physics past a 4 px threshold, z-index incremented on every grab,
+> positions persisted in localStorage, modals without animation. Those
+> parameters are documented in [EXTRACTED_PARAMS.md](EXTRACTED_PARAMS.md), and
+> the behaviour-by-behaviour comparison is in [CHECKLIST.md](CHECKLIST.md).
+> Not affiliated with the original; the content here is my own.
 
-| File | Contenuto |
+## Pages
+
+| File | What it is |
 |---|---|
-| `index.html` | desktop con le cartelle trascinabili, modal dell'immagine centrale, social |
-| `nuthoughts.html` | pagina-lettera (brano di Antonio Tabucchi) con foto in fondo |
-| `master.html` | pagina-immagine |
+| `index.html` | the desktop: draggable folders, centre image modal, social links |
+| `nuthoughts.html` | a letter page — an Antonio Tabucchi passage, photo at the foot |
+| `master.html` | an image page |
 
-## Struttura
-
-```
-index.html      desktop
-nuthoughts.html pagina-lettera
-master.html     pagina-immagine
-style.css       tutti gli stili (valori estratti dal CSS originale)
-main.js         drag, persistenza, modal (vanilla JS, nessuna dipendenza)
-assets/         icone pixel-art, immagini, font
-```
-
-## Eseguire in locale
+## Running it
 
 ```bash
 python3 -m http.server 8000
-# poi apri http://localhost:8000
+# then open http://localhost:8000
 ```
 
-Qualsiasi server statico va bene; non c'è build, non ci sono dipendenze.
+Any static server will do. There is nothing to install and nothing to build.
 
-## Crediti
+## Structure
 
-- Design d'interazione basato su [oklama.com](https://oklama.com/)
+```
+index.html            the desktop
+nuthoughts.html       the letter page
+master.html           the image page
+style.css             every style (values extracted from the original CSS)
+main.js               drag, persistence, modal — vanilla JS
+assets/               pixel-art icons, images, fonts
+EXTRACTED_PARAMS.md   the interaction parameters and where they came from
+CHECKLIST.md          behaviour-by-behaviour comparison with the reference
+```
+
+## Credits
+
+- Interaction design studied from [oklama.com](https://oklama.com/)
 - Font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/) (SIL Open Font License)
-- Citazione in `index.html`: Antonio Tabucchi
-- Icone cartella: pixel-art disegnata per questo progetto
+- Quotation in `index.html`: Antonio Tabucchi
+- Folder icons: pixel art drawn for this project
+
+## License
+
+[MIT](LICENSE) © Andrea Lando ([Acci4i0](https://github.com/Acci4i0)).
+Covers my code and content only — not the original design this study looks at.
